@@ -50,9 +50,10 @@ export default function ProjectDetails() {
     }
   };
 
-  useEffect(() => {
-    loadData();
-  }, []);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+useEffect(() => {
+  loadData();
+}, []);
 
   const currentMember = project?.members?.find(
     (member) => member.user._id === currentUser.id || member.user._id === currentUser._id
