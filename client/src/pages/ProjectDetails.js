@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import api from "../services/api";
 
@@ -40,7 +40,7 @@ export default function ProjectDetails() {
     setDashboard(res.data);
   };
 
-  const loadData = async () => {
+  const loadData = useCallback(async () => {
     try {
       await fetchProject();
       await fetchTasks();
@@ -48,12 +48,11 @@ export default function ProjectDetails() {
     } catch (error) {
       alert("Failed to load project details");
     }
-  };
+  }, [id]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-useEffect(() => {
-  loadData();
-}, []);
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
 
   const currentMember = project?.members?.find(
     (member) => member.user._id === currentUser.id || member.user._id === currentUser._id
