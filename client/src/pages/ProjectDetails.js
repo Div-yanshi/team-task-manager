@@ -25,26 +25,16 @@ export default function ProjectDetails() {
 
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
-  const fetchProject = async () => {
-    const res = await api.get(`/projects/${id}`);
-    setProject(res.data);
-  };
-
-  const fetchTasks = async () => {
-    const res = await api.get(`/tasks/project/${id}`);
-    setTasks(res.data);
-  };
-
-  const fetchDashboard = async () => {
-    const res = await api.get(`/dashboard/${id}`);
-    setDashboard(res.data);
-  };
-
   const loadData = useCallback(async () => {
     try {
-      await fetchProject();
-      await fetchTasks();
-      await fetchDashboard();
+      const projectRes = await api.get(`/projects/${id}`);
+      setProject(projectRes.data);
+
+      const tasksRes = await api.get(`/tasks/project/${id}`);
+      setTasks(tasksRes.data);
+
+      const dashboardRes = await api.get(`/dashboard/${id}`);
+      setDashboard(dashboardRes.data);
     } catch (error) {
       alert("Failed to load project details");
     }
